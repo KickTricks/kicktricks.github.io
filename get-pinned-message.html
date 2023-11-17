@@ -83,6 +83,8 @@
                         return subscriberGifterBadge;
                     case 'staff':
                         return kickStaffBadge;
+                    case 'verified':
+                        return verifiedBadge;
                     case 'subscriber':
                         let index = subscriberBadges.findIndex(x => x.months > count);
                         if(index <= 0) {
@@ -101,6 +103,7 @@
                 let pinnedMessage = null;
                 const pollInterval = window.setInterval(() => {
                     fetch(`https://kick.com/api/v2/channels/${channelId}/messages`).then((res) => res.json()).then((data) => {
+                        console.log(data);
                         if(pinnedMessage === data?.data?.pinned_message?.message) return;
                         pinnedMessage = data?.data?.pinned_message?.message;
                         if(pinnedMessage) {
