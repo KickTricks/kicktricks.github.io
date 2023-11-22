@@ -47,7 +47,7 @@ if(channelName.kickChannel) {
     const chatroomId = data.chatroom.id
     const channelId = data.chatroom.channel_id
     subscriberBadges = data.subscriber_badges
-    APIEndpoints.getPinnedMessage({ channelId }).then(data => {
+    APIEndpoints.kick.getPinnedMessage({ channelId }).then(data => {
       if(data) {
         pinMessage(data)
       }
