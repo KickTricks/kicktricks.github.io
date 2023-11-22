@@ -21,9 +21,8 @@ p {
 .message img {
   width: 2rem;
   height: 2rem;
-  transform: translateY(0.5rem);
-  display: inline-flex;
   margin: 0 0.15rem;
+  vertical-align: middle;
 }
 .pinned-message {
   display: flex;
