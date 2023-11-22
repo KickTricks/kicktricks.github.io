@@ -43,7 +43,7 @@ updateSubGoal(0)
 
 /** Kick listener */
 if(channelName.kickChannel) {
-  APIEndpoints.getChannelData().then((data) => {
+  APIEndpoints.kick.getChannelData().then((data) => {
     const chatroomId = data.chatroom.id
 
     const connection = WSConn.connect()
