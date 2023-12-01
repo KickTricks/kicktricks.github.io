@@ -43,24 +43,24 @@ if (scale > 0) {
 
 /** Kick listener */
 if(channelName.kickChannel) {
-  APIEndpoints.kick.getChannelData().then((data) => {
+  APIEndpoints.Kick.getChannelData().then((data) => {
     const chatroomId = data.chatroom.id
     const channelId = data.chatroom.channel_id
     subscriberBadges = data.subscriber_badges
-    APIEndpoints.kick.getPinnedMessage({ channelId }).then(data => {
+    APIEndpoints.Kick.getPinnedMessage({ channelId }).then(data => {
       if(data) {
         pinMessage(data)
       }
     })
-    const connection = WSConn.connect()
+    const connection = WSConn.Kick.connect()
     connection.onopen = () => {
-      connection.send(WSConn.connectChatroom({ chatroomId }))
+      connection.send(WSConn.Kick.connectChatroom({ chatroomId }))
     }
     connection.onmessage = (evt) => {
       const data = JSON.parse(evt.data)
       if (data.event === Events.PinnedMessageCreatedEvent) {
-        pinMessage(ModelFactory.Event.PinnedMessageCreatedEvent(JSON.parse(data.data)))
-      } else if (data.event === Events.PinnedMessageDeletedEvent) {
+        pinMessage(ModelFactory.Kick.Event.PinnedMessageCreatedEvent(JSON.parse(data.data)))
+      } else if (data.event === Events.Kick.PinnedMessageDeletedEvent) {
         window.clearTimeout(pinnedMessagePendingDeletionTimeout)
         pinnedMessageContainer.classList.add('hidden')
       }
