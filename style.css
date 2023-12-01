@@ -59,3 +59,6 @@ p {
 .hidden {
   opacity: 0;
 }
+.hide {
+  display: none;
+}

@@ -11,4 +11,10 @@ export const Categories = {
     image: 'sample-1.jpg',
     description: 'A collection of widgets for subscriber goals and counters',
   },
+  Subathons: {
+    name: 'Subathon Widgets',
+    type: 'subathon-widgets',
+    image: 'sample-1.jpg',
+    description: 'A collection of widgets for your subathon',
+  },
 }
