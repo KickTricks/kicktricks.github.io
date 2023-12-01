@@ -43,23 +43,23 @@ updateSubGoal(0)
 
 /** Kick listener */
 if(channelName.kickChannel) {
-  APIEndpoints.kick.getChannelData().then((data) => {
+  APIEndpoints.Kick.getChannelData().then((data) => {
     const chatroomId = data.chatroom.id
 
-    const connection = WSConn.connect()
+    const connection = WSConn.Kick.connect()
     connection.onopen = () => {
-      connection.send(WSConn.connectChatroom({ chatroomId }))
+      connection.send(WSConn.Kick.connectChatroom({ chatroomId }))
     }
     connection.onmessage = (evt) => {
       const data = JSON.parse(evt.data)
-      if (data.event === Events.SubscriptionEvent) {
+      if (data.event === Events.Kick.SubscriptionEvent) {
         updateSubGoal(1)
-      } else if (data.event === Events.GiftedSubscriptionsEvent) {
-        const giftedSubscriptionEvent = ModelFactory.Event.GiftedSubscriptionsEvent(JSON.parse(data.data))
+      } else if (data.event === Events.Kick.GiftedSubscriptionsEvent) {
+        const giftedSubscriptionEvent = ModelFactory.Kick.Event.GiftedSubscriptionsEvent(JSON.parse(data.data))
         updateSubGoal(giftedSubscriptionEvent.gifted_usernames.length)
-      } else if (data.event === Events.ChatMessageEvent) {
-        const chatMessageEvent = ModelFactory.Event.ChatMessageEvent(JSON.parse(data.data))
-        if (chatMessageEvent.sender.identity.badges.find((x) => x.type === UserTypes.broadcaster || (modComs && x.type === UserTypes.moderator))) {
+      } else if (data.event === Events.Kick.ChatMessageEvent) {
+        const chatMessageEvent = ModelFactory.Kick.Event.ChatMessageEvent(JSON.parse(data.data))
+        if (chatMessageEvent.sender.identity.badges.find((x) => x.type === UserTypes.Kick.Broadcaster || (modComs && x.type === UserTypes.Kick.Moderator))) {
           if (chatMessageEvent.content.match(/^!kt\/set-persistent-subs (\d+)$/gi)) {
             LS.setItem(LS.keys.persistentSubCount, chatMessageEvent.content.match(/\d+/g))
             subGoal = url.getIntParams('goal')

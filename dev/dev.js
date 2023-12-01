@@ -11,10 +11,10 @@ if(channelName.kickChannel) {
       console.log('Pinned message response: ', data)
     })
     console.log(data)
-    const connection = WSConn.connect()
+    const connection = WSConn.kick.connect()
     connection.onopen = () => {
-      connection.send(WSConn.connectChatroom({ chatroomId }))
-      connection.send(WSConn.connectChannel({ channelId }))
+      connection.send(WSConn.kick.connectChatroom({ chatroomId }))
+      connection.send(WSConn.kick.connectChannel({ channelId }))
     }
     connection.onmessage = (evt) => {
       const data = JSON.parse(evt.data)

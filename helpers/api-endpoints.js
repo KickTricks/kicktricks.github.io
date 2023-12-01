@@ -1,7 +1,7 @@
 import { channelName } from './channelName.js'
 import { ModelFactory } from './models.js'
 export const APIEndpoints = {
-  kick: {
+  Kick: {
     getChannelData: () => {
       return fetch(`https://kick.com/api/v2/channels/${channelName.kickChannel}`).then((res) =>
         res.json()
