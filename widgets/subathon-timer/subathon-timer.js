@@ -87,7 +87,6 @@ if(channelName.kickChannel) {
     }
     connection.onmessage = (evt) => {
       const data = JSON.parse(evt.data)
-      console.log(data)
       if (data.event === Events.Kick.SubscriptionEvent) {
         updateSubathon(1)
       } else if (data.event === Events.Kick.GiftedSubscriptionsEvent) {
