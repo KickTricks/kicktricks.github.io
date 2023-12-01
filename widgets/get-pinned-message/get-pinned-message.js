@@ -59,7 +59,7 @@ if(channelName.kickChannel) {
     }
     connection.onmessage = (evt) => {
       const data = JSON.parse(evt.data)
-      if (data.event === Events.PinnedMessageCreatedEvent) {
+      if (data.event === Events.Kick.PinnedMessageCreatedEvent) {
         pinMessage(ModelFactory.Kick.Event.PinnedMessageCreatedEvent(JSON.parse(data.data)))
       } else if (data.event === Events.Kick.PinnedMessageDeletedEvent) {
         window.clearTimeout(pinnedMessagePendingDeletionTimeout)
