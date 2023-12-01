@@ -16,14 +16,14 @@ export const ModelFactory = {
           created_at,
           id,
           metadata,
-          sender: ModelFactory.Sender(sender),
+          sender: ModelFactory.Kick.Sender(sender),
           type,
         }
       },
       PinnedMessageCreatedEvent: ({ duration = 20, message = {} }) => {
         return {
           duration,
-          message: ModelFactory.Event.ChatMessageEvent(message),
+          message: ModelFactory.Kick.Event.ChatMessageEvent(message),
         }
       },
       SubscriptionEvent: ({ chatroom_id = 0, username = '', months = 0 }) => {
@@ -54,9 +54,9 @@ export const ModelFactory = {
       },
       UserBannedEvent: ({ banned_by = {}, id = '', user = {} }) => {
         return {
-          banned_by: ModelFactory.User(banned_by),
+          banned_by: ModelFactory.Kick.User(banned_by),
           id,
-          user: ModelFactory.User(user),
+          user: ModelFactory.Kick.User(user),
         }
       },
       StreamHostEvent: ({
@@ -76,14 +76,14 @@ export const ModelFactory = {
     Sender: ({ id = 0, identity = {}, slug = '', username = '' }) => {
       return {
         id,
-        identity: ModelFactory.Identity(identity),
+        identity: ModelFactory.Kick.Identity(identity),
         slug,
         username,
       }
     },
     Identity: ({ badges = [], color = '' }) => {
       return {
-        badges: badges.map((badge) => ModelFactory.Badge(badge)),
+        badges: badges.map((badge) => ModelFactory.Kick.Badge(badge)),
         color,
       }
     },

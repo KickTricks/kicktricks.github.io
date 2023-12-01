@@ -18,13 +18,13 @@ const messageSpan = document.querySelector('.message')
 
 /** Methods */
 const pinMessage = ({ duration, message }) => {
-  const content = Emotes.parse(message.content)
+  const content = Emotes.Kick.parse(message.content)
   const createdAt = new Date(message.created_at)
   const finishesAt = new Date(message.created_at)
   finishesAt.setMinutes(createdAt.getMinutes() + duration)
   const timeOutDuration = finishesAt.getTime() - createdAt.getTime()
   badgesSpan.innerHTML = message.sender.identity.badges.map((badge) =>
-    Badges.getBadge(subscriberBadges, badge.type, badge.count)
+    Badges.Kick.getBadge(subscriberBadges, badge.type, badge.count)
   ).join('')
   usernameSpan.style.color = message.sender.identity.color
   usernameSpan.innerHTML = message.sender.username
