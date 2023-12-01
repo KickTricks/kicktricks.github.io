@@ -13,12 +13,51 @@ export const Widgets = {
     url: 'get-pinned-message/get-pinned-message.html',
     version: '1.0.0',
     changelog: {
+      '1.1.0': ['Added chat commands to permanently pin message on screen, and remove the pinned message from the screen'],
       '1.0.0': ['Initial release']
     },
     supports: [
       Supports.Kick,
     ],
-    chatCommands: [],
+    chatCommands: [
+      {
+        command: '!kt/permanent-pin',
+        example: '!kt/permanent-pin',
+        description: 'Permanently pins the current pinned message',
+        availability: [{
+          role: Roles.broadcaster,
+          availability: Availabilities.mandatory
+        },{
+          role: Roles.moderator,
+          availability: Availabilities.optional
+        },{
+          role: Roles.subscriber,
+          availability: Availabilities.unavailable
+        },{
+          role: Roles.viewer,
+          availability: Availabilities.unavailable
+        },
+        ]
+      },{
+        command: '!kt/remove-pin',
+        example: '!kt/remove-pin',
+        description: 'Removes the currently pinned message',
+        availability: [{
+          role: Roles.broadcaster,
+          availability: Availabilities.mandatory
+        },{
+          role: Roles.moderator,
+          availability: Availabilities.optional
+        },{
+          role: Roles.subscriber,
+          availability: Availabilities.unavailable
+        },{
+          role: Roles.viewer,
+          availability: Availabilities.unavailable
+        },
+        ]
+      },
+    ],
     parameters: [{
       name: 'kickchannel',
       type: 'text',
@@ -32,6 +71,11 @@ export const Widgets = {
       description: 'Scale',
       default: '1',
       required: true,
+    },{
+      name: 'modcoms',
+      type: 'toggle',
+      description: 'Allow moderators to use chat commands',
+      default: false,
     }]
   },
   SubscriberCounters: {

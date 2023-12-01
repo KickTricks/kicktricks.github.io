@@ -1,4 +1,4 @@
-import { ModelFactory, Events } from '/helpers/models.js'
+import { ModelFactory, Events, UserTypes } from '/helpers/models.js'
 import { Badges } from '/helpers/badges.js'
 import { Emotes } from '/helpers/emotes.js'
 import { WSConn } from '/helpers/ws.js'
@@ -8,6 +8,7 @@ import { url } from '/helpers/url.js'
 
 /** Params */
 const [scale] = url.getFloatParams(['scale'])
+const [modComs] = url.getBoolParams(['modcoms'])
 let subscriberBadges, pinnedMessagePendingDeletionTimeout
 
 /** HTML DOM */
@@ -63,6 +64,15 @@ if(channelName.kickChannel) {
       } else if (data.event === Events.Kick.PinnedMessageDeletedEvent) {
         window.clearTimeout(pinnedMessagePendingDeletionTimeout)
         pinnedMessageContainer.classList.add('hidden')
+      } else if (data.event === Events.Kick.ChatMessageEvent) {
+        const chatMessageEvent = ModelFactory.Kick.Event.ChatMessageEvent(JSON.parse(data.data))
+        if (chatMessageEvent.sender.identity.badges.find((x) => x.type === UserTypes.Kick.Broadcaster || (modComs && x.type === UserTypes.Kick.Moderator))) {
+          if (chatMessageEvent.content.match(/^!kt\/permanent-pin$/gi)) {
+            window.clearTimeout(pinnedMessagePendingDeletionTimeout)
+          } else if(chatMessageEvent.content.match(/^!kt\/remove-pin$/gi)) {
+            pinnedMessageContainer.classList.add('hidden')
+          }
+        }
       }
     }
   })
