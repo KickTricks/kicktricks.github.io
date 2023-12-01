@@ -34,7 +34,7 @@ p {
   line-height: 1.7rem;
   opacity: 1;
   transition: opacity 1s;
-  width: max-content;
+  width: fit-content;
   margin: 0 auto;
 }
 .sub-goal {
