@@ -167,25 +167,6 @@ export const Widgets = {
         ]
       },
       {
-        command: '!kt/subathon-add-subs',
-        example: '!kt/subathon-add-subs 16',
-        description: 'Adds 16 subs to the timer',
-        availability: [{
-          role: Roles.broadcaster,
-          availability: Availabilities.mandatory
-        },{
-          role: Roles.moderator,
-          availability: Availabilities.optional
-        },{
-          role: Roles.subscriber,
-          availability: Availabilities.unavailable
-        },{
-          role: Roles.viewer,
-          availability: Availabilities.unavailable
-        },
-        ]
-      },
-      {
         command: '!kt/subathon-remove-subs',
         example: '!kt/subathon-remove-subs 21',
         description: 'Removes 21 subs from the timer',
