@@ -11,7 +11,7 @@ export const APIEndpoints = {
       return fetch(`https://kick.com/api/v2/channels/${channelId}/messages`).then((res) =>
         res.json()
       ).then(data => 
-        data.data.pinned_message ? ModelFactory.Event.PinnedMessageCreatedEvent(data.data.pinned_message) : null
+        data.data.pinned_message ? ModelFactory.Kick.Event.PinnedMessageCreatedEvent(data.data.pinned_message) : null
       )
     }
   }

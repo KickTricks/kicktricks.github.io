@@ -14,15 +14,15 @@ export const Badges = {
       let color1, color2, index
       switch (badgeName) {
       case 'broadcaster':
-        return Badges.broadcasterBadge
+        return Badges.Kick.broadcasterBadge
       case 'moderator':
-        return Badges.moderatorBadge
+        return Badges.Kick.moderatorBadge
       case 'founder':
-        return Badges.founderBadge
+        return Badges.Kick.founderBadge
       case 'vip':
-        return Badges.vipBadge
+        return Badges.Kick.vipBadge
       case 'og':
-        return Badges.ogBadge
+        return Badges.Kick.ogBadge
       case 'sub_gifter':
         if (count < 25) {
           color1 = '#0269D4'
@@ -40,15 +40,15 @@ export const Badges = {
           color1 = '#2FA604'
           color2 = '#53F918'
         }
-        return Badges.subscriberGifterBadge(color1, color2)
+        return Badges.Kick.subscriberGifterBadge(color1, color2)
       case 'staff':
-        return Badges.kickStaffBadge
+        return Badges.Kick.kickStaffBadge
       case 'verified':
-        return Badges.verifiedBadge
+        return Badges.Kick.verifiedBadge
       case 'subscriber':
         index = subscriberBadges.findIndex((x) => x.months > count)
         if (index < 0) {
-          return Badges.defaultSubscriberBadge
+          return Badges.Kick.defaultSubscriberBadge
         } else if (index === 0) {
           index = 0
         } else if (index === subscriberBadges.length - 1) {
