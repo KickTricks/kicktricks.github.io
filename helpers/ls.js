@@ -11,5 +11,6 @@ export const LS = {
   },
   keys: {
     persistentSubCount: 'persistent-sub-count',
+    currentSubathonTime: 'currentSubathonTime',
   },
 }
