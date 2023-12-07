@@ -17,4 +17,10 @@ export const Categories = {
     image: 'sample-1.jpg',
     description: 'A collection of widgets for your subathon',
   },
+  Chat: {
+    name: 'Chat Widgets',
+    type: 'chat-widgets',
+    image: 'sample-1.jpg',
+    description: 'A collection of widgets for chat',
+  },
 }

@@ -60,6 +60,25 @@ export const ShowWidget = (selectedWidget) => {
     switchContainer.appendChild(switchLabel)
     return switchContainer
   }
+  const generateRangeField = (parameter) => {
+    const rangeContainer = document.createElement('p')
+    const rangeLabel = document.createElement('label')
+    const rangeInput = document.createElement('input')
+    const rangeValue = document.createElement('input')
+    rangeContainer.classList.add('range-field')
+    rangeInput.setAttribute('type', 'range')
+    rangeInput.setAttribute('min', 0)
+    rangeInput.setAttribute('max', 255)
+    rangeInput.setAttribute('value', parameter.default.toString(16))
+    rangeValue.setAttribute('type', 'hidden')
+    rangeValue.setAttribute('id', parameter.name)
+    rangeValue.setAttribute('value', parameter.default.toString(16))
+    rangeInput.addEventListener('input', (e) => { rangeValue.value = (e.target.value * 1).toString(16).length > 1 ? (e.target.value * 1).toString(16) : '0' + (e.target.value * 1).toString(16)})
+    rangeLabel.appendChild(rangeInput)
+    rangeLabel.appendChild(rangeValue)
+    rangeContainer.appendChild(rangeLabel)
+    return rangeContainer
+  }
   const generateLinkListener = (evt) => {
     evt.preventDefault()
     const modal = document.querySelector('#set-up-widget-modal')
@@ -133,9 +152,21 @@ export const ShowWidget = (selectedWidget) => {
           newInputField.appendChild(generateToggleField(parameter))
           modalRow.appendChild(newInputField)
           modalContainer.appendChild(modalRow)
+        } else if (parameter.type === 'range') {
+          const labelField = newInputField.querySelector('label').cloneNode(true)
+          labelField.setAttribute('for', parameter.name)
+          labelField.innerHTML = parameter.description
+          newInputField.innerHTML = ''
+          newInputField.appendChild(labelField)
+          newInputField.classList.remove('input-field')
+          newInputField.appendChild(generateRangeField(parameter))
+          modalRow.appendChild(newInputField)
+          modalContainer.appendChild(modalRow)
         } else {
           newInputField.querySelector('input').setAttribute('id', parameter.name)
-          newInputField.querySelector('input').setAttribute('required', parameter.required)
+          if(parameter.required) {
+            newInputField.querySelector('input').setAttribute('required', parameter.required)
+          }
           newInputField.querySelector('input').setAttribute('placeholder', parameter.default)
           newInputField.querySelector('input').setAttribute('type', parameter.type)
           newInputField.querySelector('input').value = parameter.default
