@@ -47,14 +47,15 @@ export const ModelFactory = {
       MessageDeletedEvent: ({ id = '', message = {} }) => {
         return {
           id,
-          meessage: {
+          message: {
             id: message.id,
           },
         }
       },
-      UserBannedEvent: ({ banned_by = {}, id = '', user = {} }) => {
+      UserBannedEvent: ({ banned_by = {}, expires_at = new Date(), id = '', user = {} }) => {
         return {
           banned_by: ModelFactory.Kick.User(banned_by),
+          expires_at,
           id,
           user: ModelFactory.Kick.User(user),
         }
@@ -114,6 +115,7 @@ export const Events = {
     SubscriptionEvent: 'App\\Events\\SubscriptionEvent',
     GiftedSubscriptionsEvent: 'App\\Events\\GiftedSubscriptionsEvent',
     StreamHostEvent: 'App\\Events\\StreamHostEvent',
+    ChatroomClearEvent: 'App\\Events\\ChatroomClearEvent',
   }
 }
 

@@ -46,15 +46,12 @@ export const Badges = {
       case 'verified':
         return Badges.Kick.verifiedBadge
       case 'subscriber':
-        index = subscriberBadges.findIndex((x) => x.months > count)
-        if (index < 0) {
+        index = subscriberBadges.findIndex((x) =>  count >= x.months)
+        if(!subscriberBadges.length) {
           return Badges.Kick.defaultSubscriberBadge
-        } else if (index === 0) {
-          index = 0
-        } else if (index === subscriberBadges.length - 1) {
-          index = index
-        } else {
-          index = index - 1
+        }
+        if (index < 0) {
+          return `<img src="https://files.kick.com/channel_subscriber_badges/${subscriberBadges[0].id}/original" />`
         }
         return `<img src="https://files.kick.com/channel_subscriber_badges/${subscriberBadges[index].id}/original" />`
       }

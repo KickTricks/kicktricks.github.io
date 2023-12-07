@@ -354,4 +354,78 @@ export const Widgets = {
       default: false,
     }]
   },
+  CleanChat: {
+    name: 'Clean Chat',
+    type: 'clean-chat',
+    image: 'sample-1.jpg',
+    shortDescription: 'A cleanable chat',
+    description: 'Chat integration with ability to filter users, command messages, replies and emote-only messages',
+    category: Categories.Chat,
+    url: 'clean-chat/clean-chat.html',
+    version: '1.0.0',
+    changelog: {
+      '1.0.0': ['Initial release']
+    },
+    supports: [
+      Supports.Kick,
+    ],
+    chatCommands: [],
+    parameters: [{
+      name: 'kickchannel',
+      type: 'text',
+      description: 'Kick Channel Name',
+      default: '',
+      required: true,
+    },{
+      name: 'scale',
+      type: 'text',
+      description: 'Scale',
+      default: '1',
+      required: true,
+    },{
+      name: 'ignorecommands',
+      type: 'toggle',
+      description: 'Ignore messages that start with !',
+      default: false,
+    },{
+      name: 'ignorereplies',
+      type: 'toggle',
+      description: 'Ignore messages that are a reply to another message',
+      default: false,
+    },{
+      name: 'emotemessageasempty',
+      type: 'toggle',
+      description: 'Ignore messages that or just emotes/emojis',
+      default: false,
+    },{
+      name: 'bgopacity',
+      type: 'range',
+      description: 'Background opacity',
+      default: 127,
+      required: true,
+    },{
+      name: 'hostmessage',
+      type: 'text',
+      description: 'Text to show in chat when you get raided',
+      default: '{raider} is hosting with {raiderCount} viewers!',
+      required: true,
+    },{
+      name: 'subscribermessage',
+      type: 'text',
+      description: 'Text to show in chat when someone subscribes',
+      default: '{chatter} has subscribed! They have been subscribed for a total of {monthCount} month.',
+      required: true,
+    },{
+      name: 'giftmessage',
+      type: 'text',
+      description: 'Text to show in chat when someone gift subscribers',
+      default: '{chatter} just gifted {giftCount} subscriptions to the community!',
+      required: true,
+    },{
+      name: 'ignoreusers',
+      type: 'text',
+      description: 'Comma separated list of chatters to ignore',
+      default: '',
+    }]
+  },
 }

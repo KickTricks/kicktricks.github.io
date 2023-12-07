@@ -64,3 +64,24 @@ p {
 .hide {
   display: none;
 }
+.clean-chat-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  line-height: 1.7rem;
+  padding: 0.625rem 0;
+  overflow: hidden;
+  max-height: 100vh;
+  width: 100vw;
+}
+.clean-chat-container p {
+  margin: 0 0.625rem;
+}
+.clean-chat-container:empty {
+  display: none;
+}
+.highlight-message {
+  color: goldenrod;
+  font-weight: 900;
+}
