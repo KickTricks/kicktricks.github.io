@@ -28,7 +28,7 @@ const zeroFill = (number) => number < 10 ? `0${number}` : number
 
 const updateSubathon = (addCount) => {
   const currentTotalTime = LS.getInt(LS.keys.totalSubathonTime)
-  if(currentTotalTime < maxTime || maxTime === 0) {
+  if(currentTotalTime < maxTime * 60 || maxTime === 0) {
     const currentTime = LS.getInt(LS.keys.currentSubathonTime)
     if(currentTime < 0) {
       subathonMessageContainer.textContent = text
