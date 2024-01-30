@@ -7,7 +7,7 @@ import { url } from '../../helpers/url.js'
 
 /** Params */
 const [text, textColor, textOutlineColor, font] = url.getParams(['text', 'textcolor', 'textoutlinecolor', 'font'])
-const [scale, secondsAddedPerSub] = url.getFloatParams(['scale', 'secondsaddedpersub'])
+const [scale, secondsAddedPerSub, maxTime] = url.getFloatParams(['scale', 'secondsaddedpersub', 'maxtime'])
 const [startHour, startMinute] = url.getIntParams(['starthour', 'startminute'])
 const [textThickness] = url.getIntParams(['textthickness'])
 const [modComs] = url.getBoolParams(['modcoms'])
@@ -27,26 +27,30 @@ const secondSpan = subathonContainer.querySelector('.second')
 const zeroFill = (number) => number < 10 ? `0${number}` : number
 
 const updateSubathon = (addCount) => {
-  const currentTime = LS.getInt(LS.keys.currentSubathonTime)
-  if(currentTime < 0) {
-    subathonMessageContainer.textContent = text
-    subathonContainer.classList.add('hide')
-    subathonMessageContainer.classList.remove('hide')
-    return
+  const currentTotalTime = LS.getInt(LS.keys.totalSubathonTime)
+  if(currentTotalTime < maxTime || maxTime === 0) {
+    const currentTime = LS.getInt(LS.keys.currentSubathonTime)
+    if(currentTime < 0) {
+      subathonMessageContainer.textContent = text
+      subathonContainer.classList.add('hide')
+      subathonMessageContainer.classList.remove('hide')
+      return
+    }
+    const newTime = currentTime + (addCount * secondsAddedPerSub)
+    LS.setItem(LS.keys.currentSubathonTime, newTime)
+    let timeLeft = newTime
+    const hours = Math.floor(timeLeft / 60 / 60)
+    timeLeft -= (hours * 60 * 60)
+    const minutes = Math.floor(timeLeft / 60)
+    timeLeft -= (minutes * 60)
+    const seconds = Math.floor(timeLeft)
+    hourSpan.textContent = zeroFill(hours)
+    minuteSpan.textContent = zeroFill(minutes)
+    secondSpan.textContent = zeroFill(seconds)
+    subathonMessageContainer.classList.add('hide')
+    subathonContainer.classList.remove('hide')
+    LS.setItem(LS.keys.totalSubathonTime, currentTotalTime + (secondsAddedPerSub / 60))
   }
-  const newTime = currentTime + (addCount * secondsAddedPerSub)
-  LS.setItem(LS.keys.currentSubathonTime, newTime)
-  let timeLeft = newTime
-  const hours = Math.floor(timeLeft / 60 / 60)
-  timeLeft -= (hours * 60 * 60)
-  const minutes = Math.floor(timeLeft / 60)
-  timeLeft -= (minutes * 60)
-  const seconds = Math.floor(timeLeft)
-  hourSpan.textContent = zeroFill(hours)
-  minuteSpan.textContent = zeroFill(minutes)
-  secondSpan.textContent = zeroFill(seconds)
-  subathonMessageContainer.classList.add('hide')
-  subathonContainer.classList.remove('hide')
 }
 
 const clockUpdater = () => {
@@ -70,6 +74,11 @@ subathonContainer.style.textShadow = `1px 2px 4px ${textOutlineColor}`
 
 if (!LS.getInt(LS.keys.currentSubathonTime)) {
   LS.setItem(LS.keys.currentSubathonTime, (startHour * 60 * 60) + (startMinute * 60))
+}
+if (!LS.getInt(LS.keys.totalSubathonTime)) {
+  const startHourToMinutes = (startHour === 0) ? 0 : startHour * 60
+  const initialTime = startHourToMinutes + startMinute
+  LS.setItem(LS.keys.totalSubathonTime, initialTime)
 }
 
 updateSubathon(0)

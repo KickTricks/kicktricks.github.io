@@ -183,8 +183,9 @@ export const Widgets = {
     description: 'A basic timer to add to your subathon that counts down from a given time to 0, and displays a text when the countdown is over. Subs will add time to the timer, and the timer can be controlled by you and your mods through the chat.',
     category: Categories.Subathons,
     url: 'subathon-timer/subathon-timer.html',
-    version: '1.0.0',
+    version: '1.1.0',
     changelog: {
+      '1.1.0': ['Added max time'],
       '1.0.0': ['Initial release']
     },
     supports: [
@@ -316,6 +317,12 @@ export const Widgets = {
       type: 'tel',
       description: 'Seconds added per sub',
       default: '10',
+      required: true,
+    },{
+      name: 'maxtime',
+      type: 'tel',
+      description: 'Max duration in hours, use 0 for unlimited',
+      default: '24',
       required: true,
     },{
       name: 'text',
