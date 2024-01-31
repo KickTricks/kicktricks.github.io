@@ -84,12 +84,11 @@ if(channelName.kickChannel) {
   APIEndpoints.Kick.getChannelData().then((data) => {
     const chatroomId = data.chatroom.id
     subscriberBadges = data.subscriber_badges
-    const connection = WSConn.Kick.connect()
-    connection.onopen = () => {
-      connection.send(WSConn.Kick.connectChatroom({ chatroomId }))
-    }
-    connection.onmessage = (evt) => {
-      const data = JSON.parse(evt.data)
+    const connection = WSConn.Kick
+    connection.onOpen = [
+      WSConn.Kick.connectChatroom({ chatroomId })
+    ]
+    connection.onMessage = (data) => {
       if (data.event === Events.Kick.ChatMessageEvent) {
         const message = ModelFactory.Kick.Event.ChatMessageEvent(JSON.parse(data.data))
         if(ignoreCommands && message.content[0] === '!') return
@@ -124,5 +123,6 @@ if(channelName.kickChannel) {
         chatContainer.innerHTML = ''
       }
     }
+    connection.connect()
   })
 }

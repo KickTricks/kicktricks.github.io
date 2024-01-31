@@ -53,12 +53,11 @@ if(channelName.kickChannel) {
         pinMessage(data)
       }
     })
-    const connection = WSConn.Kick.connect()
-    connection.onopen = () => {
-      connection.send(WSConn.Kick.connectChatroom({ chatroomId }))
-    }
-    connection.onmessage = (evt) => {
-      const data = JSON.parse(evt.data)
+    const connection = WSConn.Kick
+    connection.onOpen = [
+      WSConn.Kick.connectChatroom({ chatroomId })
+    ]
+    connection.onMessage = (data) => {
       if (data.event === Events.Kick.PinnedMessageCreatedEvent) {
         pinMessage(ModelFactory.Kick.Event.PinnedMessageCreatedEvent(JSON.parse(data.data)))
       } else if (data.event === Events.Kick.PinnedMessageDeletedEvent) {
@@ -75,5 +74,6 @@ if(channelName.kickChannel) {
         }
       }
     }
+    connection.connect()
   })
 }

@@ -13,6 +13,7 @@ export const Widgets = {
     url: 'get-pinned-message/get-pinned-message.html',
     version: '1.0.0',
     changelog: {
+      '1.1.1': ['Added ping-pong mechanices'],
       '1.1.0': ['Added chat commands to permanently pin message on screen, and remove the pinned message from the screen'],
       '1.0.0': ['Initial release']
     },
@@ -88,6 +89,7 @@ export const Widgets = {
     url: 'persistent-sub-goal/persistent-sub-goal.html',
     version: '1.0.0',
     changelog: {
+      '1.0.1': ['Added ping-pong mechanices'],
       '1.0.0': ['Initial release']
     },
     supports: [
@@ -185,6 +187,7 @@ export const Widgets = {
     url: 'subathon-timer/subathon-timer.html',
     version: '1.1.0',
     changelog: {
+      '1.1.1': ['Added ping-pong mechanices'],
       '1.1.0': ['Added max time'],
       '1.0.0': ['Initial release']
     },
@@ -371,6 +374,7 @@ export const Widgets = {
     url: 'clean-chat/clean-chat.html',
     version: '1.0.0',
     changelog: {
+      '1.0.1': ['Added ping-pong mechanices'],
       '1.0.0': ['Initial release']
     },
     supports: [

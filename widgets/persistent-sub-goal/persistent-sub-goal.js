@@ -46,12 +46,11 @@ if(channelName.kickChannel) {
   APIEndpoints.Kick.getChannelData().then((data) => {
     const chatroomId = data.chatroom.id
 
-    const connection = WSConn.Kick.connect()
-    connection.onopen = () => {
-      connection.send(WSConn.Kick.connectChatroom({ chatroomId }))
-    }
-    connection.onmessage = (evt) => {
-      const data = JSON.parse(evt.data)
+    const connection = WSConn.Kick
+    connection.onOpen = [
+      WSConn.Kick.connectChatroom({ chatroomId })
+    ]
+    connection.onMessage = (data) => {
       if (data.event === Events.Kick.SubscriptionEvent) {
         updateSubGoal(1)
       } else if (data.event === Events.Kick.GiftedSubscriptionsEvent) {
@@ -68,5 +67,6 @@ if(channelName.kickChannel) {
         }
       }
     }
+    connection.connect()
   })
 }

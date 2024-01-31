@@ -28,7 +28,7 @@ const zeroFill = (number) => number < 10 ? `0${number}` : number
 
 const updateSubathon = (addCount) => {
   const currentTotalTime = LS.getInt(LS.keys.totalSubathonTime)
-  if(currentTotalTime < maxTime * 60 || maxTime === 0) {
+  if(currentTotalTime < maxTime * 60 * 60 || maxTime === 0) {
     const currentTime = LS.getInt(LS.keys.currentSubathonTime)
     if(currentTime < 0) {
       subathonMessageContainer.textContent = text
@@ -49,7 +49,19 @@ const updateSubathon = (addCount) => {
     secondSpan.textContent = zeroFill(seconds)
     subathonMessageContainer.classList.add('hide')
     subathonContainer.classList.remove('hide')
-    LS.setItem(LS.keys.totalSubathonTime, currentTotalTime + (secondsAddedPerSub / 60))
+    LS.setItem(LS.keys.totalSubathonTime, currentTotalTime + (addCount * secondsAddedPerSub / 60))
+  } else {
+    let timeLeft = currentTotalTime
+    const hours = Math.floor(timeLeft / 60 / 60)
+    timeLeft -= (hours * 60 * 60)
+    const minutes = Math.floor(timeLeft / 60)
+    timeLeft -= (minutes * 60)
+    const seconds = Math.floor(timeLeft)
+    hourSpan.textContent = zeroFill(hours)
+    minuteSpan.textContent = zeroFill(minutes)
+    secondSpan.textContent = zeroFill(seconds)
+    subathonMessageContainer.classList.add('hide')
+    subathonContainer.classList.remove('hide')
   }
 }
 
@@ -90,12 +102,11 @@ if(channelName.kickChannel) {
   APIEndpoints.Kick.getChannelData().then((data) => {
     const chatroomId = data.chatroom.id
 
-    const connection = WSConn.Kick.connect()
-    connection.onopen = () => {
-      connection.send(WSConn.Kick.connectChatroom({ chatroomId }))
-    }
-    connection.onmessage = (evt) => {
-      const data = JSON.parse(evt.data)
+    const connection = WSConn.Kick
+    connection.onOpen = [
+      WSConn.Kick.connectChatroom({ chatroomId })
+    ]
+    connection.onMessage = (data) => {
       if (data.event === Events.Kick.SubscriptionEvent) {
         updateSubathon(1)
       } else if (data.event === Events.Kick.GiftedSubscriptionsEvent) {
@@ -122,5 +133,6 @@ if(channelName.kickChannel) {
         }
       }
     }
+    connection.connect()
   })
 }
