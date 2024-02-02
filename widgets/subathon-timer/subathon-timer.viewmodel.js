@@ -28,6 +28,9 @@ const SubathonTimerViewModel = {
       const initialTime = startHourToMinutes + SubathonTimerViewModel.startMinute
       LS.setItem(LS.keys.totalSubathonTime, initialTime)
     }
+    if(SubathonTimerViewModel.interval) {
+      clearInterval(SubathonTimerViewModel.interval)
+    }
     SubathonTimerViewModel.interval = setInterval(SubathonTimerViewModel.clockUpdater, SubathonTimerViewModel.updateTimeInMillis)
     SubathonTimerViewModel.kickConnect(kickWSUrl)
   },
@@ -52,6 +55,10 @@ const SubathonTimerViewModel = {
     }
   },
   reset: () => {
+    if(SubathonTimerViewModel.interval) {
+      clearInterval(SubathonTimerViewModel.interval)
+    }
+    SubathonTimerViewModel.interval = setInterval(SubathonTimerViewModel.clockUpdater, SubathonTimerViewModel.updateTimeInMillis)
     LS.setItem(LS.keys.currentSubathonTime, (SubathonTimerViewModel.startHour * 60 * 60) + (SubathonTimerViewModel.startMinute * 60))
     const startHourToMinutes = (SubathonTimerViewModel.startHour === 0) ? 0 : SubathonTimerViewModel.startHour * 60
     const initialTime = startHourToMinutes + SubathonTimerViewModel.startMinute
