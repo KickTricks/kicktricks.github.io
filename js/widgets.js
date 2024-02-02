@@ -87,8 +87,9 @@ export const Widgets = {
     description: 'Automatically updates the subscriber count and persist the count until it is manually reset. Subscriber goal is automatically updated as well when the goal is reached, unless the increment value is 0',
     category: Categories.SubscriberCounters,
     url: 'persistent-sub-goal/persistent-sub-goal.html',
-    version: '1.0.0',
+    version: '1.0.2',
     changelog: {
+      '1.0.2': ['Added reset command'],
       '1.0.1': ['Added ping-pong mechanices'],
       '1.0.0': ['Initial release']
     },
@@ -100,6 +101,25 @@ export const Widgets = {
         command: '!kt/set-persistent-subs',
         example: '!kt/set-persistent-subs 16',
         description: 'Sets the current subscriber number',
+        availability: [{
+          role: Roles.broadcaster,
+          availability: Availabilities.mandatory
+        },{
+          role: Roles.moderator,
+          availability: Availabilities.optional
+        },{
+          role: Roles.subscriber,
+          availability: Availabilities.unavailable
+        },{
+          role: Roles.viewer,
+          availability: Availabilities.unavailable
+        },
+        ]
+      },
+      {
+        command: '!kt/persistent-subs-reset',
+        example: '!kt/persistent-subs-reset',
+        description: 'Resets the counter to 0',
         availability: [{
           role: Roles.broadcaster,
           availability: Availabilities.mandatory
@@ -185,8 +205,9 @@ export const Widgets = {
     description: 'A basic timer to add to your subathon that counts down from a given time to 0, and displays a text when the countdown is over. Subs will add time to the timer, and the timer can be controlled by you and your mods through the chat.',
     category: Categories.Subathons,
     url: 'subathon-timer/subathon-timer.html',
-    version: '1.1.0',
+    version: '1.1.2',
     changelog: {
+      '1.1.2': ['Backend changes, removed set time command and added reset command'],
       '1.1.1': ['Added ping-pong mechanices'],
       '1.1.0': ['Added max time'],
       '1.0.0': ['Initial release']
@@ -256,25 +277,6 @@ export const Widgets = {
         command: '!kt/subathon-remove-seconds',
         example: '!kt/subathon-remove-seconds 42',
         description: 'Removes 42 seconds from the timer',
-        availability: [{
-          role: Roles.broadcaster,
-          availability: Availabilities.mandatory
-        },{
-          role: Roles.moderator,
-          availability: Availabilities.optional
-        },{
-          role: Roles.subscriber,
-          availability: Availabilities.unavailable
-        },{
-          role: Roles.viewer,
-          availability: Availabilities.unavailable
-        },
-        ]
-      },
-      {
-        command: '!kt/subathon-set-start-time',
-        example: '!kt/subathon-set-start-time 1:30',
-        description: 'Sets the timer to 1 hour and 30 minutes',
         availability: [{
           role: Roles.broadcaster,
           availability: Availabilities.mandatory

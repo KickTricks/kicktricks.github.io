@@ -63,6 +63,10 @@ if(channelName.kickChannel) {
             LS.setItem(LS.keys.persistentSubCount, chatMessageEvent.content.match(/\d+/g))
             subGoal = url.getIntParams('goal')
             updateSubGoal(0)
+          } else if (chatMessageEvent.content.match(/^!kt\/persistent-subs-reset$/gi)) {
+            LS.setItem(LS.keys.persistentSubCount, 0)
+            subGoal = url.getIntParams('goal')
+            updateSubGoal(0)
           }
         }
       }

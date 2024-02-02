@@ -3,8 +3,7 @@ import { channelName } from './channelName.js'
 export const WSConn = {
   Kick: {
     connection: null,
-    connect: () => {
-      const baseUrl = 'wss://ws-us2.pusher.com/app/eb1d5f283081a78b932c'
+    connect: (baseUrl = 'wss://ws-us2.pusher.com/app/eb1d5f283081a78b932c') => {
       const urlParams = new URLSearchParams({
         protocol: '7',
         client: 'js',
@@ -21,6 +20,7 @@ export const WSConn = {
         }
       }
       WSConn.Kick.connection.onmessage = (evt) => {
+        if(!evt?.data) return
         const data = JSON.parse(evt.data)
         WSConn.Kick.receiveMessage(data)
         WSConn.Kick.onMessage(data)
