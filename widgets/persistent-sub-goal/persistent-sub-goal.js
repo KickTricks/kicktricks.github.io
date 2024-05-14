@@ -17,14 +17,16 @@ const subgoalContainer = document.querySelector('.sub-goal p')
 
 /** Methods */
 const updateSubGoal = (addCount) => {
-  const count = LS.getInt(LS.keys.persistentSubCount) + addCount
-  while (count >= subGoal && increment !== 0) {
-    subGoal = subGoal + increment
-  }
-  const replaceSub = text.replace('{subs}', count ?? 0)
-  const replaceSubGoal = replaceSub.replace('{subGoal}', subGoal)
-  subgoalContainer.innerHTML = replaceSubGoal
-  LS.setItem(LS.keys.persistentSubCount, count)
+  try {
+    const count = LS.getInt(LS.keys.persistentSubCount) + addCount
+    while (count >= subGoal && increment !== 0) {
+      subGoal = subGoal + increment
+    }
+    const replaceSub = text.replace('{subs}', count ?? 0)
+    const replaceSubGoal = replaceSub.replace('{subGoal}', subGoal)
+    subgoalContainer.innerHTML = replaceSubGoal
+    LS.setItem(LS.keys.persistentSubCount, count)
+  } catch (err) { }
 }
 
 /** Initialize */
@@ -37,7 +39,9 @@ subgoalContainer.style.fontWeight = (textThickness * 100)
 subgoalContainer.style.textShadow = `1px 2px 4px ${textOutlineColor}`
 
 if (!LS.getInt(LS.keys.persistentSubCount)) {
-  LS.setItem(LS.keys.persistentSubCount, 0)
+  try {
+    LS.setItem(LS.keys.persistentSubCount, 0)    
+  } catch (err) {}
 }
 updateSubGoal(0)
 
@@ -51,25 +55,27 @@ if(channelName.kickChannel) {
       WSConn.Kick.connectChatroom({ chatroomId })
     ]
     connection.onMessage = (data) => {
-      if (data.event === Events.Kick.SubscriptionEvent) {
-        updateSubGoal(1)
-      } else if (data.event === Events.Kick.GiftedSubscriptionsEvent) {
-        const giftedSubscriptionEvent = ModelFactory.Kick.Event.GiftedSubscriptionsEvent(JSON.parse(data.data))
-        updateSubGoal(giftedSubscriptionEvent.gifted_usernames.length)
-      } else if (data.event === Events.Kick.ChatMessageEvent) {
-        const chatMessageEvent = ModelFactory.Kick.Event.ChatMessageEvent(JSON.parse(data.data))
-        if (chatMessageEvent.sender.identity.badges.find((x) => x.type === UserTypes.Kick.Broadcaster || (modComs && x.type === UserTypes.Kick.Moderator))) {
-          if (chatMessageEvent.content.match(/^!kt\/set-persistent-subs (\d+)$/gi)) {
-            LS.setItem(LS.keys.persistentSubCount, chatMessageEvent.content.match(/\d+/g))
-            subGoal = url.getIntParams('goal')
-            updateSubGoal(0)
-          } else if (chatMessageEvent.content.match(/^!kt\/persistent-subs-reset$/gi)) {
-            LS.setItem(LS.keys.persistentSubCount, 0)
-            subGoal = url.getIntParams('goal')
-            updateSubGoal(0)
+      try {
+        if (data.event === Events.Kick.SubscriptionEvent) {
+          updateSubGoal(1)
+        } else if (data.event === Events.Kick.GiftedSubscriptionsEvent) {
+          const giftedSubscriptionEvent = ModelFactory.Kick.Event.GiftedSubscriptionsEvent(JSON.parse(data.data))
+          updateSubGoal(giftedSubscriptionEvent.gifted_usernames.length)
+        } else if (data.event === Events.Kick.ChatMessageEvent) {
+          const chatMessageEvent = ModelFactory.Kick.Event.ChatMessageEvent(JSON.parse(data.data))
+          if (chatMessageEvent.sender.identity.badges.find((x) => x.type === UserTypes.Kick.Broadcaster || (modComs && x.type === UserTypes.Kick.Moderator))) {
+            if (chatMessageEvent.content.match(/^!kt\/set-persistent-subs (\d+)$/gi)) {
+              LS.setItem(LS.keys.persistentSubCount, chatMessageEvent.content.match(/\d+/g))
+              subGoal = url.getIntParams('goal')
+              updateSubGoal(0)
+            } else if (chatMessageEvent.content.match(/^!kt\/persistent-subs-reset$/gi)) {
+              LS.setItem(LS.keys.persistentSubCount, 0)
+              subGoal = url.getIntParams('goal')
+              updateSubGoal(0)
+            }
           }
         }
-      }
+      } catch (err) {}
     }
     connection.connect()
   })
